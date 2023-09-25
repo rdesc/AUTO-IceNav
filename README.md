@@ -1,9 +1,8 @@
 # Autonomous Ship in Ice Planner
 Code for our ICRA 2023 [paper](https://arxiv.org/abs/2302.11601) "Real-Time Navigation for Autonomous Surface Vehicles In Ice-Covered Waters".
-
-https://github.com/rdesc/ship_ice_planner/assets/39059473/9339545e-eb98-4e7b-bd3f-70a48e8f1389
-
 Links to [ICRA presentation](https://youtu.be/OAYU6cKKdXU?feature=shared) and [demo video](https://youtu.be/v626IKxXmhQ?feature=shared).
+
+https://github.com/rdesc/Autonomous-Ship-In-Ice/assets/39059473/4b6d276f-bd09-4ad3-9f91-9433c05e381e
 
 ## Installation
 1. clone the project
@@ -37,7 +36,7 @@ Run the following console command to start the physics simulation and planner in
 ```shell
 python sim2d_ship_ice_navigation.py
 ````
-The script will launch the [demo](https://github.com/rdesc/ship_ice_planner/blob/main/sim2d_ship_ice_navigation.py#L437C12-L437C12)
+The script will launch the [demo](https://github.com/rdesc/Autonomous-Ship-In-Ice/blob/ea447c9b3489f2782adfd39a4d05c9b05e224c6a/sim2d_ship_ice_navigation.py#L437)
 function which will initialize the physics simulation and planner processes with a starting ship state, goal, and ice environment.
 
 To generate empirical data of planner performance in simulation, the following script runs a series of simulation trials in sequence as well
@@ -51,7 +50,7 @@ Alternatively, the planner can generate paths without navigating a ship (either 
 ```shell
 python -m ship_ice_planner.launch 
 ```
-The script will launch the [demo](https://github.com/rdesc/ship_ice_planner/blob/main/ship_ice_planner/launch.py#L67) function.
+The script will launch the [demo](https://github.com/rdesc/Autonomous-Ship-In-Ice/blob/ea447c9b3489f2782adfd39a4d05c9b05e224c6a/ship_ice_planner/launch.py#L67) function.
 Note, the config parameter `output_dir` needs to be set to a valid directory path for the planner to save the generated paths.
 
 The planner can also be imported as a python module and launched, e.g.:
@@ -82,4 +81,6 @@ To generate ice field simulation data, use the following script:
 python -m experiments.generate_rand_exp.py
 ```
 Example of ice field generated with 0.4 concentration.
-![](https://github.com/rdesc/ship_ice_planner/blob/acf91f06f0dddde2edf4a3fd0d1ae1d8cc3826af/docs/images/ice_field_concentration_0.4.png)
+<p align="center">
+ <img src="https://github.com/rdesc/Autonomous-Ship-In-Ice/blob/ea447c9b3489f2782adfd39a4d05c9b05e224c6a/docs/images/ice_field_concentration_0.4.png" width="640" height="480"> 
+</p>
