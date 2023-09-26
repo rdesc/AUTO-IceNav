@@ -7,7 +7,7 @@ https://github.com/rdesc/Autonomous-Ship-In-Ice/assets/39059473/4b6d276f-bd09-4a
 ## Installation
 1. clone the project
 ```bash
-git clone https://github.com/rdesc/ship_ice_planner
+git clone https://github.com/rdesc/Autonomous-Ship-In-Ice
 ```
 
 2. Create and activate new environment
@@ -40,7 +40,7 @@ The script will launch the [demo](https://github.com/rdesc/Autonomous-Ship-In-Ic
 function which will initialize the physics simulation and planner processes with a starting ship state, goal, and ice environment.
 
 To generate empirical data of planner performance in simulation, the following script runs a series of simulation trials in sequence as well
-as baseline planners (e.g. straight planner and morphological planner).
+as baseline planners (e.g. straight planner and morphological skeleton planner).
 ```shell
 python -m experiments.sim_exp.py
 ```
