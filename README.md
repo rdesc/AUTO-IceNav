@@ -1,1 +1,3 @@
 Updating with new code and documentation...
+
+Master's thesis https://hdl.handle.net/10012/20785 
