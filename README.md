@@ -1,6 +1,6 @@
 # AUTO-IceNav: A Local Navigation Strategy for Autonomous Surface Ships in Broken Ice Fields
 
-https://github.com/user-attachments/assets/9f586c0a-ad13-4455-ad87-4ef1d007e9ef
+https://github.com/user-attachments/assets/dccdf3ca-38fa-4af4-8843-a98052ce4ea9
 
 This repo contains code for the following papers.
 <table>
@@ -220,13 +220,13 @@ output/SAMPLE_RUN_NAME/
 More videos can be found at this [google drive link](https://drive.google.com/drive/folders/1ftP-Dj6BW0-gLnjeTEmxeaJqgpjgWsX3?usp=sharing)
 or can be uploaded upon request.
 
-https://github.com/user-attachments/assets/5222fd16-4728-4ca0-a5e2-2dc2c30e9c75
+https://github.com/user-attachments/assets/18e8206e-d8ea-494c-a233-2bc695e09942
 
-https://github.com/user-attachments/assets/9ed681d5-065e-4b3e-b04b-51065b7fdc8b
+https://github.com/user-attachments/assets/f3c3e7b8-50b5-4ac4-9a2d-04bc79be034b
 
-https://github.com/user-attachments/assets/80d899f8-4819-433d-ac2c-d03a67746d80
+https://github.com/user-attachments/assets/a0ed863b-109d-4882-aa7c-c111840424c2
 
-https://github.com/user-attachments/assets/d0b2bc4e-9591-4d90-b8c2-5a8ab0cbeec1
+https://github.com/user-attachments/assets/92d486d2-05c1-498d-a91c-855232e878de
 
 ## Contact
 Feel free to open a git issue if you come across any issues or have any questions.
