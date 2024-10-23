@@ -1,0 +1,109 @@
+#############################################################################
+# config for running experiments in OEB tank (some params may need to be tweaked) #
+#############################################################################
+### GLOBAL PARAMS
+exp_name: OEB_2023          # directory structure is output/EXP_NAME/PLANNER/TRIAL_ID
+                            # trial_id is set by OUTPUT_DIR
+
+######################
+output_dir: AUTO-IceNav-trial01
+planner: 'lattice'          # path planner options are 'skeleton', 'straight', or 'lattice'
+                            # AUTO-IceNav uses 'lattice' planner
+comments: ''                # comments about experiment being performed
+######################
+
+map_shape:
+  - 25                      # length of ice channel in metres
+  - 7                       # width of ice channel in metres
+plot:
+  y_axis_limit: 20          # limit in metres for the y-axis of the plot
+  show: true                # true will show planner plots
+seed: 1
+
+### PLANNER PARAMS
+horizon: 20.                # distance in metres for the horizon distance
+save_paths: false           # if true save planned paths to disk
+path_step_size: 0.01        # spacing in meters between points on planned path
+
+#max_replan: 1               # max number of planning steps, if commented out (or set to None) then replan until goal is reached
+#                            # if max_replan = 1 then plan once and do not replan (bit of a misnomer...)
+#
+#                            # next 2 parameters are used to decide when to update the planned path
+#threshold_path_progress: 0  # fraction of path length the ship has to travel before updating planned path
+#threshold_dist_to_path: 0   # distance in metres from ship position to path for deciding whether to update planned path
+a_star:
+  weight: 1                 # static weighting for weighed A* f(n) = g(n) + w * h(n) where weight > 1
+costmap:
+  scale: 16                 # scale factor of the costmap which gives a resolution of 1/scale x 1/scale metres
+                            # this determines the scale of the coordinate system used in the planning stage.
+                            # NOTE this parameter affects a lot of other parameters meaning other parameters should be
+                            # adjusted accordingly so be careful when changing this value!!
+  collision_cost_weight: 10 # multiplier for the collision cost, see utils/calibration.py
+  obs_cost_buffer_factor: 0. # factor (needs to be a small number between 0 and 1) to scale up the polygons when generating costmap
+  ice_resistance_weight: 1  # power (needs to be >= 1) to raise the ice concentration term to
+  sic_kernel: [31, 31]      # the size of the kernel (in costmap grid units) for computing sea ice concentration map
+  boundary_margin: 0        # margin in metres on either side of the ice channel to set as boundary
+prim:
+  prim_name: 'PRIM_8H_1'    # name of the set of primitives to use (can be found in primitives.py)
+  scale: 12                 # scale factor of the primitives -- need to consider the scale of the costmap!!
+                            # if costmap.scale = 16 and prim.scale = 12 then 1 unit in prim = 0.75 metres
+  step_size: 0.5            # step size for sampling points on the path
+optim:
+  plot: false
+  debug: false
+  anim: false
+  body_point_params:
+    # units here are all costmap grid units
+    spacing: 2.0            # spacing between body points
+    margin: 1.0             # margin around ship footprint for generating body points (can be negative)
+    weights: null           # weights for body points, if None then all weights are 1
+    plot: false             # if true then plot body points
+  wp_spacing: 4             # spacing between waypoints in costmap grid units
+  goal_margin: 0.1          # margin in costmap grid units below and above goal line
+  horizon: 10.             # distance in metres for the horizon distance
+  smooth_control_weight:
+   5000                    # weight for smoothing curvature of the path
+  p_opts:
+    ipopt.print_level: 0    # disables all output from IPOPT / casadi
+    ipopt.sb: 'yes'         # to disable more IPOPT output
+    print_time: 0
+  s_opts:
+#    max_iter: 200
+#    warm_start_init_point: 'yes'
+#    linear_solver: 'ma27'  # default linear solver is MUMPS, using HSL solver speeds up the optimization by a decent amount (about 2x)
+    print_level: 4
+    max_cpu_time: 2.0  # in seconds
+#    nlp_scaling_method: gradient-based
+
+### SIMULATION PARAMS
+sim:
+  t_max: 50000              # max number of iterations in simulation loop
+  steps: 4                  # number of simulation steps per iteration, simulation dt = sim_dynamics.dt / steps
+  planner_timeout: 5.0      # timeout in seconds for polling of planner updates
+anim:                       # animation significantly slows down the simulation! (about 10x slower)
+  save: false               # if true save to disk animation (cannot show and save at the same time)
+  fps: 50                   # frames per second for the saved animation (does not apply to live animation)
+  show: true                # if true show animation
+  plot_steps: 5             # steps between plot updates
+  inf_stream: true          # if true then animation view moves with ship
+  move_yaxis_threshold: 2   # distance traveled before y-axis moves
+goal_offset: 5             # offset from goal line to set goal
+
+### SHIP MODEL AND CONTROLLER PARAMS
+ship:
+  mass: 90                  # mass of ship in kg
+  padding: 0.0              # adds padding to ship footprint
+  vertices:  [[ 1., -0. ],  # vertices of the ship footprint in metres defined around (0, 0) and the ship's bow facing the positive x-axis
+             [ 0.9, 0.10 ],
+             [ 0.5, 0.25 ],
+             [ -1., 0.25 ],
+             [ -1., -0.25 ],
+             [ 0.5, -0.25 ],
+             [ 0.9, -0.10 ]]
+
+sim_dynamics:
+  vessel_model: 'NRC_supply'  # see sim_dynamics.py for available models
+  dt: 0.02                  # time step for integrating dynamics, 1 iteration of main simulation loop = dt seconds
+  target_speed: .2          # m/s
+  max_acceleration: 0.01    # m/s^2 -- too high of a value hurts tracking
+  track_time: 10             # time in seconds to track the current trajectory before triggering a replan

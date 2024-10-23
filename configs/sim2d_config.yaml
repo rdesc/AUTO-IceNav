@@ -2,95 +2,108 @@
 # config for testing ship in ice navigation in 2D physics simulation #
 #############################################################################
 ### GLOBAL PARAMS
-output_dir: null # 'output/trial0'
-comments: ''     # comments about experiment being performed
-
+output_dir: null            # root directory for storing all experiment output files
+comments: ''                # comments about experiment being performed
+map_shape:
+  - 1100                    # length of ice channel in metres
+  - 200                     # width of ice channel in metres
 plot:
-  y_axis_limit: 40  # limits the y-axis of the plot
-  show: false       # true will show planner plots
+  y_axis_limit: 300         # limit in metres for the y-axis of the plot
+  show: false               # true will show planner plots
+seed: 1
 
 ### PLANNER PARAMS
-#max_replan: 1        # max number of replans
-planner: 'lattice'    # options are 'skeleton', 'straight', or 'lattice'
-threshold_dist: 0.5   # fraction of path length for deciding whether to update planned path
-threshold_cost: 0.95  # fraction of path cost for deciding whether to update planned path
+horizon: 500.               # distance in metres for the horizon distance
+save_paths: false           # if true save planned paths to disk
+path_step_size: 0.02        # spacing in meters between points on planned path
+planner: 'lattice'          # path planner options are 'skeleton', 'straight', or 'lattice'
+                            # AUTO-IceNav uses 'lattice' planner
+                            # all planners are in planners/ directory
+                            # parameters for 'skeleton' are set as global variables in planners/skeleton.py
+                            # the rest of the planner parameters below are for 'lattice' planner
+
+#max_replan: 1               # max number of planning steps, if commented out (or set to None) then replan until goal is reached
+#                            # if max_replan = 1 then plan once and do not replan (bit of a misnomer...)
+
+#                            # next 2 parameters are used to decide when to update the planned path
+#threshold_path_progress: 0  # fraction of path length the ship has to travel before updating planned path
+#threshold_dist_to_path: 0   # distance in metres from ship position to path for deciding whether to update planned path
 a_star:
-  horizon: 20  # receding horizon in metres (needs to be an int for it to be enabled)
-  replan: true
-  smooth_path:
-    add_nodes: 10  # number of nodes to add in node path
-    max_dist: 20   # max distance to consider a pair of nodes
-  weight: 1        # static weighting for weighed A* f(n) = g(n) + w * h(n) where weight > 1
-#  h_baseline: True  # if true, then heuristic is simply euclidean distance to goal
+  weight: 1                 # static weighting for weighed A* f(n) = g(n) + w * h(n) where weight > 1
 costmap:
-  m: 76       # height of ice channel in metres, can set to large number for 'infinite' ice channel
-  n: 12       # width of ice channel in metres
-  scale: 4    # this gives a resolution of 1/scale x 1/scale metres
-  alpha: 10   # collision cost multiplier
+  scale: 0.5                # scale factor of the costmap which gives a resolution of 1/scale x 1/scale metres
+                            # this determines the scale of the coordinate system used in the planning stage.
+                            # NOTE this parameter affects a lot of other parameters meaning other parameters should be
+                            # adjusted accordingly so be careful when changing this value!!
+  collision_cost_weight:
+   0.00000048               # multiplier for the collision cost, see utils/calibration.py
+  obs_cost_buffer_factor:
+   0.15                     # factor (needs to be a small number between 0 and 1) to scale up the polygons when generating costmap
+  ice_resistance_weight: 1  # power (needs to be >= 1) to raise the ice concentration term to
+  sic_kernel: [51, 51]      # the size of the kernel (in costmap grid units) for computing sea ice concentration map
+  boundary_margin: 2        # margin in metres on either side of the ice channel to set as boundary
 prim:
-  scale: 4 # Note, there is a limit on how small prim scale can be in relation to costmap scale
-  num_headings: 8  # number of headings in the discretized heading space
-  step_size: 0.1   # step size for sampling points on the path
-  turning_radius: 2.0  # turning radius of the ship in lattice units
-ship:
-  mass: 1  # mass of ship in kg, should be more realistic...
-  padding: 0.25  # adds padding to ship footprint
-  vertices: [[1., -0.],
-            [0.9, 0.10],
-            [0.5, 0.25],
-            [-1., 0.25],
-            [-1., -0.25],
-            [0.5, -0.25],
-            [0.9, -0.10]]
+  prim_name: 'PRIM_8H_4'    # name of the set of primitives to use (can be found in primitives.py)
+  scale: 15                 # scale factor of the primitives -- need to consider the scale of the costmap!!
+                            # if costmap.scale = 0.5 and prim.scale = 15 then 1 unit in prim = 30 metres
+  step_size: 0.5            # step size for sampling points on the path
+optim:
+  plot: false
+  debug: false
+  anim: false
+  body_point_params:
+    # units here are all costmap grid units
+    spacing: 3              # spacing between body points
+    margin: 0               # margin around ship footprint for generating body points (can be negative)
+    weights: null           # weights for body points, if None then all weights are 1
+    plot: false             # if true then plot body points
+  wp_spacing: 2             # spacing between waypoints in costmap grid units
+  goal_margin: 0.1          # margin in costmap grid units below and above goal line
+  horizon: 500.             # distance in metres for the horizon distance
+  smooth_control_weight:
+   50000                    # weight for smoothing curvature of the path
+  p_opts:
+    ipopt.print_level: 0    # disables all output from IPOPT / casadi
+    ipopt.sb: 'yes'         # to disable more IPOPT output
+    print_time: 0
+  s_opts:
+#    max_iter: 200
+#    warm_start_init_point: 'yes'
+#    linear_solver: 'ma27'  # default linear solver is MUMPS, using HSL solver speeds up the optimization by a decent amount (about 2x)
+    print_level: 0
+    max_cpu_time: 4.0  # in seconds
+#    nlp_scaling_method: gradient-based
 
 ### SIMULATION PARAMS
 sim:
-  t_max: null  # max number of iterations in simulation loop
-  steps: 10    # number of simulation steps per iteration
-  gravity: !!python/tuple
-    - 0
-    - 0
-  iterations: 10  # controls accuracy of pymunk solver i.e. simulation accuracy, default is 10
-  damping: 0      # damping to body velocities
-  obstacle_density: 1
-obstacle:
-  num_obs: 50  # number of random ice obstacles (new pieces are generated to maintain number if inf_stream=True)
-  min_r: 2
-  max_r: 8
-  min_x: 0
-  max_x: 40
-  min_y: 10
-  max_y: 150
-anim:
-  save: false               # if true save to disk animation plots
-  show: true                # if true show animation plots
-  plot_steps: 10            # steps between plot updates
-  plan_steps: 10            # steps between obstacle and planner updates
-  inf_stream: false         # if true then infinite obstacle stream mode is enabled
+  t_max: 50000              # max number of iterations in simulation loop
+  steps: 4                  # number of simulation steps per iteration, simulation dt = sim_dynamics.dt / steps
+  planner_timeout: 5.0      # timeout in seconds for polling of planner updates
+anim:                       # animation significantly slows down the simulation! (about 10x slower)
+  save: false               # if true save to disk animation (cannot show and save at the same time)
+  fps: 50                   # frames per second for the saved animation (does not apply to live animation)
+  show: true                # if true show animation
+  plot_steps: 5             # steps between plot updates
+  inf_stream: true          # if true then animation view moves with ship
   move_yaxis_threshold: 10  # distance traveled before y-axis moves
-#  new_obs_dist: 50          # distance traveled before new obstacles are added
-seed: 1
-#ice_current: [0, -1]       # option to add ice current to simulation
+goal_offset: 30             # offset from goal line to set goal
 
 ### SHIP MODEL AND CONTROLLER PARAMS
-controller:
-  dt: 0.02  # the ship dynamics model was discretized with this dt
-  # States: [r, u, v] : yaw rate (deg/s), surge velocity (m/s), sway velocity (m/s)
-  A:
-    - [ 0.9909, 0., 0. ]
-    - [ 0., 0.9980, 0. ]
-    - [ 0., 0., 0.9953 ]
-  # Input matrix: differential fore/aft (rps), side tunnel (rps), main prop (rps) (Assume pure motions)
-  B: [ 0.04515, 4.321e-5, 1.730e-4 ]
-  # Input limits
-  # To calculate yaw rate given min turn radius r and surge velocity v
-  # 360 / ((2 pi r) / v)
-  input_lims: [8.6, 0.5, 0.05]
-  # look ahead distance
-  Lfc: 0.5
-  # target speed
-  target_speed: 0.3  # m/s
-  PID_gains:  # gains for 3 PIDs
-    - [ 5, 0, 5 ]
-    - [ 10, 0, 20 ]
-    - [ 10, 0, 20 ]
+ship:
+  mass: 6000000             # mass of ship in kg
+  padding: 0.0              # adds padding to ship footprint
+  vertices: [[43.1, 0.0],   # vertices of the ship footprint in metres defined around (0, 0) and the ship's bow facing the positive x-axis
+             [35.4, 4.0],
+             [27.5, 6.5],
+             [11.6, 9.0],
+             [-33.1, 9.0],
+             [-33.1, -9.0],
+             [11.6, -9.0],
+             [27.5, -6.5],
+             [35.4, -4.0]]
+sim_dynamics:
+  vessel_model: 'Fossen_supply'  # see sim_dynamics.py for available models
+  dt: 0.02                  # time step for integrating dynamics, 1 iteration of main simulation loop = dt seconds
+  target_speed: 2.0         # m/s
+  max_acceleration: 0.04    # m/s^2 -- too high of a value hurts tracking
+  track_time: 30            # time in seconds to track the current trajectory before triggering a replan
