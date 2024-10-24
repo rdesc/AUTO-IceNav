@@ -153,6 +153,12 @@ output/SAMPLE_TRIAL_NAME
      ├── ke_impulse_vs_time.pdf         # kinetic energy and impulse vs time
      └── state_vs_time.pdf              # ship state vs time (_d suffix for desired state)
 ```
+
+The following is a side-by-side comparison between the three navigation methods in a snippet of a simulation trial.
+The planner can be set by the parameter `planner` in the configuration file.
+
+https://github.com/user-attachments/assets/fc9d9243-8e03-4dc6-8810-65bee45f505c
+
 ### No ice physics simulation
 To run the demo without the physics simulator, use the script [demo_dynamic_positioning.py](demo_dynamic_positioning.py).
 This script only simulates the vessel dynamics and runs the controller module.
