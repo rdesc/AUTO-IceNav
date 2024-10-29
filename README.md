@@ -15,15 +15,27 @@ This repo contains code for the following papers.
 </table>
 
 ## Table of Contents
-1. [Installation](#installation)
-2. [Simulator](#simulator)
-3. [Demo Scripts](#demo-scripts)
-4. [Reproducing Simulation Experiments](#reproducing-simulation-experiments)
-5. [Evaluation](#evaluation)
-6. [Demo Videos from NRC Experiments](#demo-videos-from-nrc-experiments)
+1. [Demo Videos from NRC Experiments](#demo-videos-from-nrc-experiments)
+2. [Installation](#installation)
+3. [Simulator](#simulator)
+4. [Demo Scripts](#demo-scripts)
+5. [Reproducing Simulation Experiments](#reproducing-simulation-experiments)
+6. [Evaluation](#evaluation)
 7. [Contact](#contact)
 8. [Citation](#citation)
 9. [Acknowledgement](#acknowledgement)
+
+## Demo Videos from NRC Experiments
+More videos can be found at this [google drive link](https://drive.google.com/drive/folders/1ftP-Dj6BW0-gLnjeTEmxeaJqgpjgWsX3?usp=sharing)
+or can be uploaded upon request.
+
+https://github.com/user-attachments/assets/18e8206e-d8ea-494c-a233-2bc695e09942
+
+https://github.com/user-attachments/assets/f3c3e7b8-50b5-4ac4-9a2d-04bc79be034b
+
+https://github.com/user-attachments/assets/a0ed863b-109d-4882-aa7c-c111840424c2
+
+https://github.com/user-attachments/assets/92d486d2-05c1-498d-a91c-855232e878de
 
 ## Installation
 
@@ -221,18 +233,6 @@ output/SAMPLE_RUN_NAME/
 ├── 0.3                              # trials with 30% ice concentration
 └── ...                              # trials with the other ice concentrations
 ```                                                                                                                                                            
-
-## Demo Videos from NRC Experiments
-More videos can be found at this [google drive link](https://drive.google.com/drive/folders/1ftP-Dj6BW0-gLnjeTEmxeaJqgpjgWsX3?usp=sharing)
-or can be uploaded upon request.
-
-https://github.com/user-attachments/assets/18e8206e-d8ea-494c-a233-2bc695e09942
-
-https://github.com/user-attachments/assets/f3c3e7b8-50b5-4ac4-9a2d-04bc79be034b
-
-https://github.com/user-attachments/assets/a0ed863b-109d-4882-aa7c-c111840424c2
-
-https://github.com/user-attachments/assets/92d486d2-05c1-498d-a91c-855232e878de
 
 ## Contact
 Feel free to open a git issue if you come across any issues or have any questions.
