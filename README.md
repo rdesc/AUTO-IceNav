@@ -236,7 +236,7 @@ output/SAMPLE_RUN_NAME/
 
 ## Contact
 Feel free to open a git issue if you come across any issues or have any questions.
-The maintainer of this project can be reached at [rdeschae@uwaterloo.ca]().
+The maintainer of this project can be reached at [rdeschae [at] uwaterloo [dot] ca]().
 
 ## Citation
 Please consider citing our papers if you find our work useful for your research:
