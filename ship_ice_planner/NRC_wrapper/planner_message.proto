@@ -1,0 +1,50 @@
+// This Protocol Buffer definition file defines the messages sent and received by the Planner Server
+
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package planner_pb;
+
+// =======================================================================================================
+// These are messages sent over the wire.
+// =======================================================================================================
+
+message PlannerResponseMessage
+{
+    google.protobuf.Timestamp timestamp_field = 1;
+    repeated Point2DYawMessage path = 2;
+}
+
+message PlannerInputMessage
+{
+    google.protobuf.Timestamp timestamp_field = 1;
+    Point2DYawMessage start = 2;
+    double speed = 3;
+    Point2DMessage goal = 4;
+    repeated IcePieceMessage ice_pieces = 5;
+    string run_id = 6;  // can be used to indicate trial start and end
+}
+
+// =======================================================================================================
+// These structures are shared nested, child messages not directly sent over the wire.
+// =======================================================================================================
+
+message Point2DMessage
+{
+    double x = 1;
+    double y = 2;
+}
+
+message Point2DYawMessage
+{
+    double x = 1;
+    double y = 2;
+    double yaw = 3;
+}
+
+message IcePieceMessage
+{
+    // A sequence of three or more points.
+    repeated Point2DMessage perimeter = 1;
+}

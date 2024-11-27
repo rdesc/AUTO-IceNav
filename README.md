@@ -5,12 +5,12 @@ https://github.com/user-attachments/assets/dccdf3ca-38fa-4af4-8843-a98052ce4ea9
 This repo contains code for the following papers.
 <table>
   <tr>
-    <td><a href=""><img src="https://github.com/user-attachments/assets/db94821f-2bce-465f-bca7-beb80c4e16cc" width="200"/></a></td>
-    <td><a href=""><i>AUTO-IceNav: A Local Navigation Strategy for Autonomous Surface Ships in Broken Ice Fields</i></a><br/> Rodrigue de Schaetzen, Alexander Botros, Ninghan Zhong, Kevin Murrant, Robert Gash, Stephen L. Smith <br/>In submission, 2024 <br/><br/> :point_left: Extended journal paper</td>
+    <td><a href="https://arxiv.org/abs/2411.17155"><img src="https://github.com/user-attachments/assets/f5b9751b-8185-49fe-9cf8-9336489b45f9" width="200"/></a></td>
+    <td><a href="https://arxiv.org/abs/2411.17155"><i>AUTO-IceNav: A Local Navigation Strategy for Autonomous Surface Ships in Broken Ice Fields</i></a><br/> <a href="https://rdesc.dev/">Rodrigue de Schaetzen</a>, <a href="https://scholar.google.de/citations?user=VGDjJ1QAAAAJ&hl=en">Alexander Botros</a>, <a href="https://ivaniz.github.io/">Ninghan Zhong</a>, <a href="https://scholar.google.com/citations?user=XB_g76cAAAAJ&hl=en">Kevin Murrant</a>, <a href="https://www.researchgate.net/scientific-contributions/Robert-Gash-2124111622">Robert Gash</a>, <a href="https://ece.uwaterloo.ca/~sl2smith/">Stephen L. Smith</a> <br/>In submission, 2024 <br/><br/> :point_left: Extended journal paper</td>
   </tr>
   <tr>
     <td><a href="https://arxiv.org/abs/2302.11601"><img src="https://github.com/user-attachments/assets/58a6e167-2fd7-4f01-90b4-64f2309f51b6" width="200"/></a></td>
-    <td><a href="https://arxiv.org/abs/2302.11601"><i>Real-Time Navigation for Autonomous Surface Vehicles In Ice-Covered Waters</i></a><br/> Rodrigue de Schaetzen, Alexander Botros, Robert Gash, Kevin Murrant, Stephen L. Smith <br/>ICRA 2023 <br/><br/> :point_left: Original conference paper</td>
+    <td><a href="https://arxiv.org/abs/2302.11601"><i>Real-Time Navigation for Autonomous Surface Vehicles In Ice-Covered Waters</i></a><br/> <a href="https://rdesc.dev/">Rodrigue de Schaetzen</a>, <a href="https://scholar.google.de/citations?user=VGDjJ1QAAAAJ&hl=en">Alexander Botros</a>, <a href="https://www.researchgate.net/scientific-contributions/Robert-Gash-2124111622">Robert Gash</a>, <a href="https://scholar.google.com/citations?user=XB_g76cAAAAJ&hl=en">Kevin Murrant</a>, <a href="https://ece.uwaterloo.ca/~sl2smith/">Stephen L. Smith</a> <br/>ICRA 2023 <br/><br/> :point_left: Original conference paper</td>
   </tr>
 </table>
 
@@ -57,12 +57,12 @@ pip install -r requirements.txt
 gdown https://drive.google.com/uc?id=1DuuVJfHHxXJqVZ1KG60q_X2uK5ZoS2cS --output data/
 
 # (optional) run tests
-cd tests && pytest .
+cd test && pytest .
 ```
 
 ## Simulator
 
-This repo includes a 2D physics simulator for simulating ship-ice interactions.
+This repo includes a 2D physics simulator for simulating ship-ice interactions.[^1]
 It uses the [Pymunk](http://www.pymunk.org/en/latest/) library for simulating ice floes treated as rigid bodies, 
 and the [Marine Systems Simulator (Python)](https://github.com/cybergalactic/MSS) for the ship dynamics.
 The core physics parameters and utility functions are defined in [sim_utils.py](ship_ice_planner/utils/sim_utils.py),
@@ -241,7 +241,11 @@ The maintainer of this project can be reached at [rdeschae [at] uwaterloo [dot] 
 ## Citation
 Please consider citing our papers if you find our work useful for your research:
 ```BibTeX
-@article{
+@article{deschaetzen2024autoicenav,
+  title={AUTO-IceNav: A Local Navigation Strategy for Autonomous Surface Ships in Broken Ice Fields},
+  author={de Schaetzen, Rodrigue and Botros, Alexander and Zhong, Ninghan and Murrant, Kevin and Gash, Robert and Smith, Stephen L},
+  journal={arXiv preprint arXiv:2411.17155},
+  year={2024}
 }
 
 @inproceedings{deschaetzen2023real,
@@ -259,3 +263,5 @@ This work was completed as part of the [MASc thesis](https://hdl.handle.net/1001
 ## Acknowledgement
 This repo uses the python implementation of the [Marine Systems Simulator (MSS)](https://github.com/cybergalactic/PythonVehicleSimulator)
 by Thor I. Fossen.
+
+[^1]: See this video we found on YouTube of a full-scale ship navigating pack ice in Antarctica [https://www.youtube.com/watch?v=Q7qEi_Dcvbs](https://www.youtube.com/watch?v=Q7qEi_Dcvbs).
