@@ -11,7 +11,6 @@ from ship_ice_planner.geometry.polygon import *
 from ship_ice_planner.geometry.utils import Rxy_3d, Rxy, euclid_dist
 from ship_ice_planner.image_process.ice_concentration import compute_sic
 from ship_ice_planner.utils.plot import Plot
-from ship_ice_planner.utils.sim_utils import SHIP_MASS
 
 # define an arbitrary max cost applied to a cell in the costmap
 MAX_COST = 1e10
@@ -315,7 +314,7 @@ class CostMap:
 
 def demo():
     from ship_ice_planner.utils.sim_utils import generate_obstacles
-    from ship_ice_planner.utils.sim_utils import ICE_DENSITY, ICE_THICKNESS
+    from ship_ice_planner.utils.sim_utils import ICE_DENSITY, ICE_THICKNESS, SHIP_MASS
     from ship_ice_planner.ship import FULL_SCALE_PSV_VERTICES
     from ship_ice_planner.ship import Ship
 
