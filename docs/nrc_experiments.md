@@ -96,11 +96,12 @@ The planner expects to receive the ship position, ship orientation, ice segmenta
 ## Testing in Simulation
 In preparation for the NRC experiments, it is crucial to test the planner code in simulation!
 
-To do so, update the simulation parameters in [sim_utils.py](../ship_ice_planner/utils/sim_utils.py) to match the NRC setup:
+To do so, update the simulation parameters in [sim_utils.py](../ship_ice_planner/utils/sim_utils.py) to match the NRC setup[^1]:
 ```python
-ICE_DENSITY = 991.
-WATER_DENSITY = 1000.
-ICE_THICKNESS = 0.012
+ICE_DENSITY = 991.     # kg/m^3
+WATER_DENSITY = 1000.  # kg/m^3
+ICE_THICKNESS = 0.012  # m
+SHIP_MASS = 90         # kg
 ```
 
 Next, launch the simulator with ice data from a previous NRC trial:
@@ -115,3 +116,5 @@ configs/NRC_OEB_config.yaml \
 
 ## Data from previous NRC experiments
 Contact [Rodrigue de Schaetzen](https://rdesc.dev/).
+
+[^1]: Note, the ship mass is defined in 2 places: the config yaml and in the `sim_utils.py`. It might be worth moving all of these parameters to the config yaml file...
