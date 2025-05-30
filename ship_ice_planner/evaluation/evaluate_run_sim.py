@@ -432,7 +432,7 @@ def process_trials(dir_path,
         return pd.read_csv(os.path.join(dir_path, TRIAL_RESULTS_CSV_FILE_NAME), index_col=0)
 
     # get the planners
-    planners = [p.lower() for p in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, p))]
+    planners = [p for p in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, p))]
 
     # for storing results
     results = []
