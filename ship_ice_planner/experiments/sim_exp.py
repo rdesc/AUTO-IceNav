@@ -53,7 +53,6 @@ def main(cfg_file: str,
         print('\nConcentration:', conc)
 
         for ice_field_idx in tqdm(exp_dict['exp'][conc]):
-            if ice_field_idx > 1: continue
             print('\nIce field index:', ice_field_idx)
             exp = exp_dict['exp'][conc][ice_field_idx]
 

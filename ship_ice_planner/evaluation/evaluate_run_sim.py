@@ -417,7 +417,8 @@ def process_trials(dir_path,
     Process all trials for a particular ice field
     """
     if not os.path.exists(dir_path):
-        return
+        print('Directory {} does not exist!'.format(dir_path))
+        return None
 
     if check_existing and os.path.exists(os.path.join(dir_path, TRIAL_RESULTS_CSV_FILE_NAME)):
         planners = [p for p in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, p))]
@@ -432,7 +433,8 @@ def process_trials(dir_path,
         return pd.read_csv(os.path.join(dir_path, TRIAL_RESULTS_CSV_FILE_NAME), index_col=0)
 
     # get the planners
-    planners = [p.lower() for p in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, p))]
+    planners = [p for p in os.listdir(dir_path) if os.path.isdir(os.path.join(dir_path, p))]
+    straight_planner_key = 'straight' if 'straight' in planners else 'Straight'
 
     # for storing results
     results = []
@@ -505,8 +507,8 @@ def process_trials(dir_path,
             else:
                 collided_obs_results[p].append(collided_obs_mass)
 
-    if 'straight' in planners:
-        straight_idx = planners.index('straight')
+    if straight_planner_key in planners:
+        straight_idx = planners.index(straight_planner_key)
         # normalize some metrics
         cols_to_normalize = ['Total Ship KE Loss (J)',
                              'Mean Collision Impulse (N s)',
@@ -558,16 +560,19 @@ def floe_mass_prob_density_plot(collided_obs: dict, save_fig=None):
 def compute_experiment_statistics(df, dir_path) -> pd.DataFrame:
     df_mean = df.groupby(['Concentration', 'Planner']).mean()
     df_mean.drop(columns=['Ice Field Index'], inplace=True)
+    planners = df['Planner'].unique().tolist()
+    straight_planner_key = 'straight' if 'straight' in planners else 'Straight'
 
-    # normalize some metrics
-    cols_to_normalize = ['Total Ship KE Loss (J)',
-                         'Mean Collision Impulse (N s)',
-                         'Max Collision Impulse (N s)']
-    for concentration in df['Concentration'].unique():
-        for col in cols_to_normalize:
-            straight_val = df_mean.loc[(concentration, 'straight'), col]
-            df_mean.loc[(concentration, slice(None)), col + ' Normalized'] = \
-                df_mean.loc[(concentration, slice(None)), col] / straight_val
+    if straight_planner_key in planners:
+        # normalize some metrics
+        cols_to_normalize = ['Total Ship KE Loss (J)',
+                             'Mean Collision Impulse (N s)',
+                             'Max Collision Impulse (N s)']
+        for concentration in df['Concentration'].unique():
+            for col in cols_to_normalize:
+                straight_val = df_mean.loc[(concentration, straight_planner_key), col]
+                df_mean.loc[(concentration, slice(None)), col + ' Normalized'] = \
+                    df_mean.loc[(concentration, slice(None)), col] / straight_val
 
     df_mean.to_csv(os.path.join(dir_path, ALL_TRIAL_RESULTS_MEAN_CSV_FILE_NAME))
 
@@ -610,7 +615,7 @@ def process_experiment(root_dir,
     # iterate over trials first
     for concentration in tqdm(exp_data):
         for ice_field_idx in tqdm(exp_data[concentration]):
-            trial_df = process_trials(dir_path=os.path.join(root_dir, str(concentration), str(ice_field_idx)),
+            trial_df = process_trials(dir_path=os.path.join(root_dir, str(concentration), f'{ice_field_idx:02d}'),
                                       obs_dicts=exp_data[concentration][ice_field_idx]['obstacles'],
                                       collided_obs_results=collided_obs_results,
                                       all_sim_data_fps=all_sim_data_fps,
