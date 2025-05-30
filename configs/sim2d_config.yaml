@@ -28,6 +28,7 @@ planner: 'lattice'          # path planner options are 'skeleton', 'straight', o
 #                            # next 2 parameters are used to decide when to update the planned path
 #threshold_path_progress: 0  # fraction of path length the ship has to travel before updating planned path
 #threshold_dist_to_path: 0   # distance in metres from ship position to path for deciding whether to update planned path
+#threshold_cost_diff: 0.1    # threshold for cost difference between current and new path to update planned path
 a_star:
   weight: 1                 # static weighting for weighed A* f(n) = g(n) + w * h(n) where weight > 1
 costmap:

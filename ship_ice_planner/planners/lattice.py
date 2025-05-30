@@ -51,7 +51,10 @@ def lattice_planner(cfg, debug=False, **kwargs):
                        swath_shape=swath_shape,
                        **cfg.a_star)
         path_compare = Path(threshold_path_progress=cfg.get('threshold_path_progress', 0),
-                            threshold_dist_to_path=cfg.get('threshold_dist_to_path', 0) * costmap.scale)
+                            threshold_dist_to_path=cfg.get('threshold_dist_to_path', 0) * costmap.scale,
+                            threshold_cost_diff=cfg.get('threshold_cost_diff', 0),
+                            ship_vertices=ship.vertices,
+                            costmap=costmap)
         metrics = Storage(output_dir=cfg.output_dir, file=METRICS_FILE)
 
         optim_step = cfg.get('optim', False)
